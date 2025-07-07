@@ -2,67 +2,54 @@
 <html>
 <head>
     {% load static %}
-<link rel="stylesheet" href="{% static 'css/styles.css' %}">
-
+    <meta charset="UTF-8">
     <title>Gains Galore 🏋🏾‍♂️</title>
-    <style>
-        .workout-details {
-            display: none;
-            margin-top: 5px;
-        }
-        .workout-title {
-            cursor: pointer;
-            color: blue;
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <h1>Welcome to Gains Galore 💪🏾</h1>
+    <header>
+        <h1>Welcome to Gains Galore 💪🏾</h1>
+    </header>
 
-    {% if user.is_authenticated %}
-        <p>Welcome back, {{ user.username }}!</p>
-        <a href="/admin/logout/">Logout</a>
-    {% else %}
-        <p>
-            <a href="/users/login/">Login</a> |
-            <a href="/users/register/">Register</a>
-        </p>
-    {% endif %}
+    <div class="container">
+        <div class="auth-links">
+            {% if user.is_authenticated %}
+                <p>Welcome back, {{ user.username }}! <a href="/admin/logout/">Logout</a></p>
+            {% else %}
+                <a href="/users/login/">Login</a> |
+                <a href="/users/register/">Register</a>
+            {% endif %}
+        </div>
 
-    <h2>Workout Plans</h2>
-    <ul>
-        {% for workout in workouts %}
-            <li>
-                <span class="workout-title" onclick="toggleDetails('details-{{ forloop.counter }}')">
-                    <strong>{{ workout.title }}</strong> - {{ workout.difficulty|capfirst }}
-                </span>
-                <div id="details-{{ forloop.counter }}" class="workout-details">
-                    <p>{{ workout.description }}</p>
-                    {% if workout.video_url %}
-                        <a href="{{ workout.video_url }}" target="_blank">Watch Video</a><br>
-                    {% endif %}
-                    {% if workout.is_premium %}
-                        <em>Premium</em>
-                    {% else %}
-                        <em>Free</em>
-                    {% endif %}
-                </div>
-            </li>
-            <hr>
-        {% empty %}
-            <p>No workouts available.</p>
-        {% endfor %}
-    </ul>
+        <h2>Workout Plans</h2>
+        <ul class="workout-list">
+            {% for workout in workouts %}
+                <li>
+                    <span class="workout-title" onclick="toggleDetails('details-{{ forloop.counter }}')">
+                        {{ workout.title }} - {{ workout.difficulty|capfirst }}
+                    </span>
+                    <div class="workout-details" id="details-{{ forloop.counter }}">
+                        <p>{{ workout.description }}</p>
+                        {% if workout.video_url %}
+                            <a href="{{ workout.video_url }}" target="_blank">Watch Video</a><br>
+                        {% endif %}
+                        {% if workout.is_premium %}
+                            <em>Premium</em>
+                        {% else %}
+                            <em>Free</em>
+                        {% endif %}
+                    </div>
+                </li>
+            {% empty %}
+                <p>No workouts available.</p>
+            {% endfor %}
+        </ul>
+    </div>
 
     <script>
         function toggleDetails(id) {
             const el = document.getElementById(id);
-            if (el.style.display === 'none' || el.style.display === '') {
-                el.style.display = 'block';
-            } else {
-                el.style.display = 'none';
-            }
+            el.style.display = el.style.display === 'none' || el.style.display === '' ? 'block' : 'none';
         }
     </script>
 </body>
