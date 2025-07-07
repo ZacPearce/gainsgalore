@@ -1,15 +1,15 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.http import HttpResponse
+from django.shortcuts import render
+from workouts.models import WorkoutPlan
 
 def home_view(request):
-    return HttpResponse("""
-        <h1>Welcome to Gains Galore 💪🏾</h1>
-        <p>
-            <a href='/users/login/'>Login</a> |
-            <a href='/users/register/'>Register</a>
-        </p>
-    """)
+    if request.user.is_authenticated:
+        workouts = WorkoutPlan.objects.all()
+    else:
+        workouts = WorkoutPlan.objects.filter(is_premium=False)
+
+    return render(request, 'home.html', {'workouts': workouts})
 
 urlpatterns = [
     path('admin/', admin.site.urls),
