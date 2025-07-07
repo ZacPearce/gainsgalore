@@ -1,20 +1,71 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    padding: 20px;
+    background-color: #f4f4f4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
 }
 
-h1 {
-    color: #2c3e50;
+header {
+    background-color: #1f1f1f;
+    color: white;
+    padding: 20px;
     text-align: center;
 }
 
-a {
-    color: #007bff;
-    text-decoration: none;
+header h1 {
+    margin: 0;
+    font-size: 32px;
 }
 
-ul {
+.container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+a {
+    color: #2d72d9;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #1a4fa0;
+    text-decoration: underline;
+}
+
+.workout-list {
     list-style-type: none;
     padding: 0;
+}
+
+.workout-list li {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.workout-title {
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.workout-details {
+    display: none;
+    padding-top: 8px;
+    color: #555;
+}
+
+.auth-links {
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.auth-links a {
+    margin-left: 10px;
+    font-size: 14px;
 }
