@@ -76,10 +76,21 @@ python -m venv gainsgalore-env
 source gainsgalore-env/bin/activate
 pip install -r requirements.txt
 
-# Create .env file with your own test keys
 python manage.py migrate
 python manage.py runserver
 ```
+
+---
+
+## ✅ Manual Testing
+
+The following features were manually tested:
+
+- **User registration & login**: Users can register and log in with valid credentials. Form validation prevents invalid inputs.
+- **Workout access**: Only free workouts are visible to unauthenticated users. Premium content prompts for payment.
+- **Stripe checkout**: Stripe’s test mode was used to simulate successful and failed transactions using test cards.
+- **JavaScript functionality**: Users can toggle workout details dynamically without reloading the page.
+- **Responsive layout**: The layout adjusts well on both desktop and mobile devices.
 
 ---
 
