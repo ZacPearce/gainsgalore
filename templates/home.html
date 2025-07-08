@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
-<head>
-    {% load static %}
-    <meta charset="UTF-8">
-    <title>Gains Galore 🏋🏾‍♂️</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
+    <head>
+        {% load static %}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <title>Gains Galore 🏋🏾‍♂️</title>
+    </head>
 <body>
     <header>
         <h1>Welcome to Gains Galore 💪🏾</h1>
@@ -16,15 +16,15 @@
             {% if user.is_authenticated %}
                 <p>Welcome back, {{ user.username }}! <a href="/admin/logout/">Logout</a></p>
             {% else %}
-                <a href="/users/login/">Login</a> |
-                <a href="/users/register/">Register</a>
+                <a href="/users/login/" class="btn">Login</a>
+                <a href="/users/register/" class="btn">Register</a>
             {% endif %}
         </div>
 
         <h2>Workout Plans</h2>
         <ul class="workout-list">
             {% for workout in workouts %}
-                <li>
+                <li class="workout-item">
                     <span class="workout-title" onclick="toggleDetails('details-{{ forloop.counter }}')">
                         {{ workout.title }} - {{ workout.difficulty|capfirst }}
                     </span>
