@@ -1,56 +1,62 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        {% load static %}
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="{% static 'css/style.css' %}">
-        <title>Gains Galore 🏋🏾‍♂️</title>
-    </head>
-<body>
-    <header>
-        <h1>Welcome to Gains Galore 💪🏾</h1>
-    </header>
+<head>
+    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gains Galore 🏋🏾‍♂️</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="/">Gains Galore 💪🏾</a>
+            <div>
+                {% if user.is_authenticated %}
+                    <span class="text-white me-2">Hi, {{ user.username }}</span>
+                    <a href="/admin/logout/" class="btn btn-sm btn-outline-light">Logout</a>
+                {% else %}
+                    <a href="/users/login/" class="btn btn-sm btn-outline-light me-2">Login</a>
+                    <a href="/users/register/" class="btn btn-sm btn-light">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
 
     <div class="container">
-        <div class="auth-links">
-            {% if user.is_authenticated %}
-                <p>Welcome back, {{ user.username }}! <a href="/admin/logout/">Logout</a></p>
-            {% else %}
-                <a href="/users/login/" class="btn">Login</a>
-                <a href="/users/register/" class="btn">Register</a>
-            {% endif %}
-        </div>
+        <h2 class="mb-4">Workout Plans</h2>
 
-        <h2>Workout Plans</h2>
-        <ul class="workout-list">
-            {% for workout in workouts %}
-                <li class="workout-item">
-                    <span class="workout-title" onclick="toggleDetails('details-{{ forloop.counter }}')">
-                        {{ workout.title }} - {{ workout.difficulty|capfirst }}
-                    </span>
-                    <div class="workout-details" id="details-{{ forloop.counter }}">
-                        <p>{{ workout.description }}</p>
-                        {% if workout.video_url %}
-                            <a href="{{ workout.video_url }}" target="_blank">Watch Video</a><br>
-                        {% endif %}
-                        {% if workout.is_premium %}
-                            <em>Premium</em>
-                        {% else %}
-                            <em>Free</em>
-                        {% endif %}
+        {% if workouts %}
+            <div class="list-group">
+                {% for workout in workouts %}
+                    <div class="list-group-item mb-3">
+                        <h5 class="mb-1 workout-title" onclick="toggleDetails('details-{{ forloop.counter }}')" style="cursor:pointer;">
+                            {{ workout.title }} - {{ workout.difficulty|capfirst }}
+                        </h5>
+                        <div class="workout-details mt-2" id="details-{{ forloop.counter }}" style="display: none;">
+                            <p>{{ workout.description }}</p>
+                            {% if workout.video_url %}
+                                <a href="{{ workout.video_url }}" target="_blank">📺 Watch Video</a><br>
+                            {% endif %}
+                            <span class="badge bg-{{ workout.is_premium|yesno:'warning,success' }}">
+                                {{ workout.is_premium|yesno:"Premium,Free" }}
+                            </span>
+                        </div>
                     </div>
-                </li>
-            {% empty %}
-                <p>No workouts available.</p>
-            {% endfor %}
-        </ul>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">No workouts available.</div>
+        {% endif %}
     </div>
 
     <script>
         function toggleDetails(id) {
             const el = document.getElementById(id);
-            el.style.display = el.style.display === 'none' || el.style.display === '' ? 'block' : 'none';
+            el.style.display = (el.style.display === 'none' || el.style.display === '') ? 'block' : 'none';
         }
     </script>
+
 </body>
 </html>
